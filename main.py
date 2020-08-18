@@ -5,8 +5,6 @@ import numpy as np
 from time import sleep
 from random import randint
 
-
-
 headers = {"Accept-Language": "en-US,en;q=0.5"}
 
 titles = []
@@ -14,12 +12,12 @@ years = []
 time = []
 imdb_ratings = []
 metascores = []
+genres = []
 votes = []
 certificates = []
 
 pages = np.arange(1, 1001, 50)
-# pd.set_option("display.max_rows", None, "display.max_columns", None)
-
+pd.set_option("display.max_columns", None, 'display.max_rows', None)
 
 for page in pages:
 
@@ -48,7 +46,12 @@ for page in pages:
         m_score = container.find('span', class_='metascore').text if container.find('span', class_='metascore') else ''
         metascores.append(m_score)
 
-        certificate = container.find('span', {'class':'certificate'})
+        genre = container.p.find('span', class_='genre').text.strip() if container.p.find('span',
+                                                                                          class_='genre') else ''
+        genres.append(genre)
+
+        certificate = container.p.find('span', class_='certificate').text if container.p.find('span',
+                                                                                              class_='certificate') else ''
         certificates.append(certificate)
 
         nv = container.find_all('span', attrs={'name': 'nv'})
@@ -56,15 +59,15 @@ for page in pages:
         vote = nv[0].text
         votes.append(vote)
 
-
 movies = pd.DataFrame({
     'Movie': titles,
     'Year': years,
+    'Genre': genres,
     'Rating': imdb_ratings,
     'metaScore': metascores,
     'Votes': votes,
-    'Length': time
-   # 'Age Certificate': certificates
+    'Length': time,
+    'Age Certificate': certificates
 })
 
 movies.loc[:, 'Year'] = movies['Year'].str[-5:-1].astype(int)
@@ -72,14 +75,22 @@ movies.loc[:, 'Year'] = movies['Year'].str[-5:-1].astype(int)
 movies['Length'] = movies['Length'].astype(str)
 movies['Length'] = movies['Length'].str.extract('(\d+)').astype(int)
 
+movies['Genre'] = movies['Genre'].astype(str)
+movies['Genre'] = movies['Genre']
+
+movies['Age Certificate'] = movies['Age Certificate'].astype(str)
+movies['Age Certificate'] = movies['Age Certificate']
+
 movies['metaScore'] = movies['metaScore'].str.extract('(\d+)')
 movies['metaScore'] = pd.to_numeric(movies['metaScore'], errors='coerce')
 
+movies['Votes'] = movies['Votes'].str.replace(',', '').astype(int)
+
 # to see your dataframe
-print(movies)
+print(movies.sort_values(by=['Rating', 'metaScore'], ascending=[False, False]))
 
 # to see the datatypes of your columns
-# print(movies.dtypes)
+print(movies.dtypes)
 
 # to see where you're missing data and how much data is missing
 print(movies.isnull().sum())
