@@ -96,4 +96,4 @@ print(movies.dtypes)
 print(movies.isnull().sum())
 
 # to move all your scraped data to a CSV file
-# movies.to_csv('movies.csv')
+movies.to_csv('movies.csv')
