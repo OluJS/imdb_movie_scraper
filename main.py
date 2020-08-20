@@ -17,7 +17,10 @@ votes = []
 certificates = []
 
 pages = np.arange(1, 1001, 50)
-pd.set_option("display.max_columns", None, 'display.max_rows', None)
+pd.set_option(
+            "display.max_columns", None,
+              #'display.max_rows', None
+              )
 
 for page in pages:
 
@@ -96,4 +99,4 @@ print(movies.dtypes)
 print(movies.isnull().sum())
 
 # to move all your scraped data to a CSV file
-# movies.to_csv('movies.csv')
+movies.to_csv('movies.csv')
