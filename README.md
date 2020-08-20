@@ -1,1 +1,1 @@
-# IMDB Top1000 Movie Scraper
+# IMDB 1000 Movie Scraper
