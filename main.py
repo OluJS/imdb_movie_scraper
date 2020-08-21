@@ -16,7 +16,7 @@ genres = []
 votes = []
 certificates = []
 
-pages = np.arange(1, 1001, 50)
+pages = np.arange(1, 1000, 50)
 pd.set_option(
             "display.max_columns", None,
               #'display.max_rows', None
