@@ -203,6 +203,15 @@ def top1000Movies():
 
 
 def top100Shows():
+    
+    titles = []
+    years = []
+    time = []
+    imdb_ratings = []
+    genres = []
+    votes = []
+    certificates = []
+    
     print("Work in progress, come back soon...")
     print(sep="")
     titleScreen()
