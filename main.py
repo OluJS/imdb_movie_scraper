@@ -212,6 +212,16 @@ def top100Shows():
     votes = []
     certificates = []
     
+    movies = pd.DataFrame({
+        'Movie': titles,
+        'Year': years,
+        'Length': time,
+        'Rating': imdb_ratings,
+        'Genre': genres,
+        'Votes': votes,
+        'Age Certificate': certificates
+    })
+    
     print("Work in progress, come back soon...")
     print(sep="")
     titleScreen()
