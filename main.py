@@ -9,24 +9,24 @@ import time
 headers = {"Accept-Language": "en-US,en;q=0.5"}
 
 
-def startScreenSelect():
-    userOption = input("> ")
-    if userOption.lower() == ("1"):
-        top1000Movies()
-    elif userOption.lower() == ("2"):
-        top100Shows()
-    elif userOption.lower() == ("3"):
-        userHelp()
-    elif userOption.lower() == ("4"):
-        userQuit()
+def start_screen_select():
+    user_option = input("> ")
+    if user_option.lower() == "1":
+        top1000_movies()
+    elif user_option.lower() == "2":
+        top100_shows()
+    elif user_option.lower() == "3":
+        user_help()
+    elif user_option.lower() == "4":
+        user_quit()
     else:
         print("Please choose one of the given options")
         print(sep="")
         time.sleep(0.8)
-        titleScreen()
+        title_screen()
 
 
-def titleScreen():
+def title_screen():
     print("================================")
     print("=         IMDB Scraper         =")
     print("================================")
@@ -35,67 +35,51 @@ def titleScreen():
     print("=      (3)Help                 =")
     print("=      (4)Quit                 =")
     print("================================")
-    startScreenSelect()
+    start_screen_select()
 
 
-def top1000Movies():
-    sortingOrder = ""
-    userOptionSort = input("How would you like to sort them by?:"
-                           "\n"
-                           "(1) Movie Title "
-                           " (2) Movie Year "
-                           " (3) Length of Movie "
-                           " (4) IMDB Rating "
-                           " (5) MetaScore "
-                           " (6) Genre "
-                           " (7) No. of Votes "
-                           " (8) Age Certificate "
-                           "\n> ")
+def top1000_movies():
+    sorting_order = ""
+    user_option_sort = input("How would you like to sort them by?:"
+                             "\n"
+                             "(1) Movie Title "
+                             " (2) Movie Year "
+                             " (3) Genre  "
+                             " (4) IMDB Rating "
+                             " (5) MetaScore "
+                             " (6) No. of Votes "
+                             " (7) Length of Movie "
+                             " (8) Age Certificate "
+                             "\n> ")
 
-
-    if userOptionSort == ("1"):
-        sortingOrder = "Movie"
+    if user_option_sort == "1":
+        sorting_order = "Movie"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Movie Title")
-        '''
-        ascendingOrder = input("In ascending order? (True/False): ")
-        while ascendingOrder not in ["True", "False", "true", "false", "t", "f"]:
-            ascendingOrderInput = input("Please choose either 'True' or 'False' ")
-            if ascendingOrderInput == "True":
-                ascendingOrder = True
-            elif ascendingOrderInput == "False":
-                ascendingOrder = False
-            print(bool("Hello"))
-            
-            if ascendingOrder == "True":
-                print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Movie Title in ascending order")
-            elif ascendingOrder == "False":
-                print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Movie Title in descending order")
-        '''
-    elif userOptionSort == ("2"):
-        sortingOrder = "Year"
+    elif user_option_sort == "2":
+        sorting_order = "Year"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Movie Year")
-    elif userOptionSort == ("3"):
-        sortingOrder = "Genre"
+    elif user_option_sort == "3":
+        sorting_order = "Genre"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Length of Movie")
-    elif userOptionSort == ("4"):
-        sortingOrder = "Rating"
+    elif user_option_sort == "4":
+        sorting_order = "Rating"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by IMDB Rating")
-    elif userOptionSort == ("5"):
-        sortingOrder = "metaScore"
+    elif user_option_sort == "5":
+        sorting_order = "metaScore"
         print("You have chosen to get the Top 1000 Movies on IMDB ,sorted by MetaScore")
-    elif userOptionSort == ("6"):
-        sortingOrder = "Votes"
+    elif user_option_sort == "6":
+        sorting_order = "Votes"
         print("You have chosen to get the Top 1000 Movies on IMDB,sorted  by Genre")
-    elif userOptionSort == ("7"):
-        sortingOrder = "Length"
+    elif user_option_sort == "7":
+        sorting_order = "Length"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by No. of Votes")
-    elif userOptionSort == ("8"):
-        sortingOrder = "Age Certificate"
+    elif user_option_sort == "8":
+        sorting_order = "Age Certificate"
         print("You have chosen to get the Top 1000 Movies on IMDB, sorted by Age Certificate")
     else:
         print("Please choose one of the given options")
 
-    fileName = input("\nThis program will output the results to a file."
+    file_name = input("\nThis program will output the results to a file."
                       "\nPlease choose a name for this file: "
                       "\n")
 
@@ -145,12 +129,12 @@ def top1000Movies():
                                                                                         class_='metascore') else ''
             metascores.append(m_score)
 
-            genre = container.p.find('span', class_='genre').text.strip() if container.p.find('span',
-                                                                                              class_='genre') else ''
+            genre = container.p.find('span', class_='genre').text.strip() \
+                if container.p.find('span', class_='genre') else ''
             genres.append(genre)
 
-            certificate = container.p.find('span', class_='certificate').text if container.p.find('span',
-                                                                                                  class_='certificate') else ''
+            certificate = container.p.find('span', class_='certificate').text \
+                if container.p.find('span', class_='certificate') else ''
             certificates.append(certificate)
 
             nv = container.find_all('span', attrs={'name': 'nv'})
@@ -187,7 +171,8 @@ def top1000Movies():
 
     # to see your dataframe
     print(sep="")
-    print(movies.sort_values(by=[sortingOrder]))
+    output = movies.sort_values(by=[sorting_order])
+    print(output)
 
     # to see the datatypes of your columns
     # print(movies.dtypes)
@@ -196,14 +181,13 @@ def top1000Movies():
     # print(movies.isnull().sum())
 
     # to move all your scraped data to a CSV file
-    movies.to_csv(fileName + '.csv')
-    print("Items have been collected and written to " + fileName + ".csv")
+    output.to_csv(file_name + '.csv')
+    print("Items have been collected and written to " + file_name + ".csv")
     print(sep="")
-    titleScreen()
+    title_screen()
 
 
-def top100Shows():
-    
+def top100_shows():
     titles = []
     years = []
     time = []
@@ -211,7 +195,7 @@ def top100Shows():
     genres = []
     votes = []
     certificates = []
-    
+
     movies = pd.DataFrame({
         'Movie': titles,
         'Year': years,
@@ -221,13 +205,13 @@ def top100Shows():
         'Votes': votes,
         'Age Certificate': certificates
     })
-    
+
     print("Work in progress, come back soon...")
     print(sep="")
-    titleScreen()
+    title_screen()
 
 
-def userHelp():
+def user_help():
     print("\n")
     print("============================================================")
     print("=                          Help                            =")
@@ -239,19 +223,19 @@ def userHelp():
     print("============================================================")
     time.sleep(3)
     print(sep="")
-    titleScreen()
+    title_screen()
 
-def userQuit():
+
+def user_quit():
     reply = str(input("Are you sure you want to quit?" + ' (Y/N): ')).lower().strip()
     if reply == 'y':
         return True
     elif reply == 'n':
         print(sep="")
-        titleScreen()
+        title_screen()
     else:
         print("Please choose a valid option: ")
-        userQuit()
+        user_quit()
 
 
-
-titleScreen()
+title_screen()
