@@ -5,6 +5,7 @@ import numpy as np
 from time import sleep
 from random import randint
 import time
+import json
 
 headers = {"Accept-Language": "en-US,en;q=0.5"}
 
@@ -153,6 +154,7 @@ def top1000_movies():
         'Age Certificate': certificates
     })
 
+
     movies.loc[:, 'Year'] = movies['Year'].str[-5:-1].astype(int)
 
     movies['Length'] = movies['Length'].astype(str)
@@ -168,6 +170,9 @@ def top1000_movies():
     movies['metaScore'] = pd.to_numeric(movies['metaScore'], errors='coerce')
 
     movies['Votes'] = movies['Votes'].str.replace(',', '').astype(int)
+
+    #df = pd.DataFrame(movies)
+    #print(df.to_json(orient="records", indent=4))
 
     # to see your dataframe
     print(sep="")
