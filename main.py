@@ -15,10 +15,8 @@ def start_screen_select():
     if user_option.lower() == "1":
         top1000_movies()
     elif user_option.lower() == "2":
-        top100_shows()
-    elif user_option.lower() == "3":
         user_help()
-    elif user_option.lower() == "4":
+    elif user_option.lower() == "3":
         user_quit()
     else:
         print("Please choose one of the given options")
@@ -32,9 +30,8 @@ def title_screen():
     print("=         IMDB Scraper         =")
     print("================================")
     print("=      (1)Top 1000 Movies      =")
-    print("=      (2)Top 100 Shows        =")
-    print("=      (3)Help                 =")
-    print("=      (4)Quit                 =")
+    print("=      (2)Help                 =")
+    print("=      (3)Quit                 =")
     print("================================")
     start_screen_select()
 
@@ -154,7 +151,6 @@ def top1000_movies():
         'Age Certificate': certificates
     })
 
-
     movies.loc[:, 'Year'] = movies['Year'].str[-5:-1].astype(int)
 
     movies['Length'] = movies['Length'].astype(str)
@@ -171,47 +167,17 @@ def top1000_movies():
 
     movies['Votes'] = movies['Votes'].str.replace(',', '').astype(int)
 
-    #df = pd.DataFrame(movies)
-    #print(df.to_json(orient="records", indent=4))
+    # prints results in the form of JSON
 
-    # to see your dataframe
+    # df = pd.DataFrame(movies)
+    # print(df.to_json(orient="records", indent=4))
+
     print(sep="")
     output = movies.sort_values(by=[sorting_order])
     print(output)
 
-    # to see the datatypes of your columns
-    # print(movies.dtypes)
-
-    # to see where you're missing data and how much data is missing
-    # print(movies.isnull().sum())
-
-    # to move all your scraped data to a CSV file
     output.to_csv(file_name + '.csv')
     print("Items have been collected and written to " + file_name + ".csv")
-    print(sep="")
-    title_screen()
-
-
-def top100_shows():
-    titles = []
-    years = []
-    time = []
-    imdb_ratings = []
-    genres = []
-    votes = []
-    certificates = []
-
-    movies = pd.DataFrame({
-        'Movie': titles,
-        'Year': years,
-        'Length': time,
-        'Rating': imdb_ratings,
-        'Genre': genres,
-        'Votes': votes,
-        'Age Certificate': certificates
-    })
-
-    print("Work in progress, come back soon...")
     print(sep="")
     title_screen()
 
